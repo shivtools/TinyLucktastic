@@ -1,12 +1,87 @@
-$(document).ready(function(){
-  $(function() {
-    Dropzone.options.myAwesomeDropzone = {
-      paramName: "file", // The name that will be used to transfer the file
-      maxFilesize: 2, // MB
-      accept: function(file, done) {
-        console.log(file);
-        done();
-      }
-    };
-  });
+$(document).ready(function () {
+
+
+    var hasSessionStorage = checkSessionStorage(); //Check if user's browser supports session storage
+    var hasCustomDimensions = false; //If user clicks on custom dimensions, then set this variable to true
+
+    var $custom = $('.customButton'); //If user decides to input custom specs
+    var $customDiv = $('.customDiv');
+    var $resize = $('.resize');
+
+    //When a user clicks on the custom button, hide the button and show input fields
+    $custom.click(function () {
+        hasCustomDimensions = true;
+        $custom.hide();
+        $customDiv.fadeIn(300);
+    });
+
+    //What to do when resize ('Go!') button is clicked
+    $resize.click(function () {
+        if (hasSessionStorage) {
+            var checkboxes = $('.checkbox');
+
+            //If user has provided a custom percentage to rescale to
+            var percentage = parseInt($('#percentage')[0].value);
+
+            //Check if input is null. If input provided, then divide by 100, round to 4 dp
+            var scaledPercentage = (percentage.length == 0) ? null : (percentage / 100).toFixed(4);
+
+            //Pass the value of percentages as well as the checkboxes to getResizedImages
+            getResizedImages(checkboxes, scaledPercentage);
+        } else {
+            alert('Sorry, but you cannot resize using this browser. Please try using the latest version of Chrome!')
+        }
+    });
+
+
+
+
 });
+
+//Given the switches (array of HTML divs, populate window with download URLs for resized images)
+var getResizedImages = function (checkboxes, percentage) {
+
+    var sizes = [];
+
+    //If the user has provided a custom percentage, push it into array
+    if (percentage) {
+        sizes.push(parseFloat(percentage));
+    }
+
+    //Push image sizes for resizing to array sizes
+    for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked) {
+            sizes.push(parseFloat(checkboxes[i].name));
+        }
+    }
+
+    //Get session stored images and parse it into JSON object
+    var json_objects = JSON.parse(sessionStorage.images);
+
+    resize(json_objects, sizes);
+}
+
+/*
+  Function to make AJAX call to resize.php, and populate urlList with download links
+  @param {Array}  JSON objects containing information about each image
+  @param {Array}  Integers containing sizes to resize images to
+*/
+var resize = function (images, sizes) {
+    $.ajax({
+        url: 'resize.php',
+        success: function (processed_images) {
+            console.log(processed_images);
+        }
+    });
+}
+
+
+//Check if user's browser supports session storage
+var checkSessionStorage = function () {
+    if (typeof (Storage) !== "undefined") {
+        return true;
+    } else {
+        alert('You will not be able to resize images using this browser. Please try using the tool with the latest version of Chrome!');
+        return false;
+    }
+}

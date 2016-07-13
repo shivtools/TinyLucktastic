@@ -495,7 +495,7 @@
 
     Dropzone.prototype.getFilesWithStatus = function(status) {
       var file, _i, _len, _ref, _results;
-      _ref = this.files;
+      _ref = this.files; //Number of files that have been uploaded
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         file = _ref[_i];
@@ -1247,6 +1247,8 @@
     */
     var populateURLs = function(response){
 
+      console.log('Inside populateURLs');
+
       var isError = response.error;
 
       //Get the list containing URLs
@@ -1258,6 +1260,20 @@
 
       if(!isError){
 
+        //Store object in browser's session storage
+        if(sessionStorage.length == 0){
+          //If there are no images currently stored in sessionStorage, then create an array and add first JSON object to it
+          var images = [];
+          images.push(response);
+          sessionStorage.images = JSON.stringify(images);
+        }
+        else{
+          //If there are currently images, get string, parse it to JSON, add another JSON object and encode it again as a string.
+          var images = JSON.parse(sessionStorage.images);
+          images.push(response);
+          sessionStorage.images = JSON.stringify(images);
+        }
+
         //Create anchor with href = url
         var a = document.createElement('a');
         a.setAttribute('href', response.url);
@@ -1265,16 +1281,19 @@
         a.textContent = 'Download ' + response.name + '!';
 
         var p = document.createElement('p');
-        p.textContent = 'We just saved you ' + response.saved_percentage + '% :)! ';
+        p.textContent = 'We just saved you ' + response.saved_percentage + '% for your ' + response.height + 'x' + response.width + ' image :)!';
 
         //Append the anchor element as a child to the list element --> <li> <a></a> </li>
         li.appendChild(p);
         li.appendChild(a);
 
+        console.log('Appended to ul!', p.textContent);
+
         //Append the li element containing the download link to the list (ul)
         urlList[0].appendChild(li);
       }
       else{
+        console.log('Error in populateURLs');
         var p = document.createElement('p');
         p.textContent = 'There was an error in uploading/compressing your file: ' + isError;
 
@@ -1359,7 +1378,7 @@
           if (xhr.getResponseHeader("content-type") && ~xhr.getResponseHeader("content-type").indexOf("application/json")) {
             try {
               response = JSON.parse(response);
-              populateURLs(response); //Custom method added in to populate Download URLs
+              populateURLs(response);           //Custom method added in to populate Download URLs
             } catch (_error) {
               e = _error;
               response = "Invalid JSON response from server.";
