@@ -1239,7 +1239,16 @@
         ===========================================================================================================
      */
 
+    /*
+      Populates ul 'urlList' with appropriate response from Kraken's API
+
+      @param {JSON} JSON response from Kraken
+      @return {void}
+    */
     var populateURLs = function(response){
+
+      var isError = response.error;
+
       //Get the list containing URLs
       var urlList = document.getElementsByClassName('urlList');
 
@@ -1247,21 +1256,35 @@
       var li = document.createElement('li');
       li.setAttribute('class','collection-item');
 
-      //Create anchor with href = url
-      var a = document.createElement('a');
-      a.setAttribute('href', response.url);
-      a.setAttribute('download', response.name);
-      a.textContent = 'Download ' + response.name + '!';
+      if(!isError){
 
-      var p = document.createElement('p');
-      p.textContent = 'We just saved you ' + response.saved_percentage + '% :)! ';
+        //Create anchor with href = url
+        var a = document.createElement('a');
+        a.setAttribute('href', response.url);
+        a.setAttribute('download', response.name);
+        a.textContent = 'Download ' + response.name + '!';
 
-      //Append the anchor element as a child to the list element --> <li> <a></a> </li>
-      li.appendChild(p);
-      li.appendChild(a);
+        var p = document.createElement('p');
+        p.textContent = 'We just saved you ' + response.saved_percentage + '% :)! ';
 
-      //Append the li element containing the download link to the list (ul)
-      urlList[0].appendChild(li);
+        //Append the anchor element as a child to the list element --> <li> <a></a> </li>
+        li.appendChild(p);
+        li.appendChild(a);
+
+        //Append the li element containing the download link to the list (ul)
+        urlList[0].appendChild(li);
+      }
+      else{
+        var p = document.createElement('p');
+        p.textContent = 'There was an error in uploading/compressing your file: ' + isError;
+
+        //Append the p element as a child to the list element
+        li.appendChild(p);
+
+        //Append the li element containing the download link to the list (ul)
+        urlList[0].appendChild(li);
+      }
+
     }
 
     Dropzone.prototype.uploadFiles = function(files) {
