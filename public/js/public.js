@@ -58,21 +58,71 @@ var getResizedImages = function (checkboxes, percentage) {
     //Get session stored images and parse it into JSON object
     var json_objects = JSON.parse(sessionStorage.images);
 
+    //Call resize to make AJAX call to PHP
     resize(json_objects, sizes);
 }
 
 /*
-  Function to make AJAX call to resize.php, and populate urlList with download links
+  Function to make AJAX call to resize.php, and populate urlList with URLs (linking to S3) to download images
   @param {Array}  JSON objects containing information about each image
   @param {Array}  Integers containing sizes to resize images to
 */
 var resize = function (images, sizes) {
-    $.ajax({
-        url: 'resize.php',
-        success: function (processed_images) {
-            console.log(processed_images);
-        }
-    });
+
+    //If no images || no sizes are provided, complain and exit.
+    if (images.length == 0) {
+        alert('Please provide an image to resize and try again!');
+        return;
+    } else if (sizes.length == 0) {
+        alert('Please provide one or more sizes to work with!');
+        return;
+    } else {
+
+        var $urlList = $('.urlList');
+
+        //Make parallel AJAX calls to resize.php and populate URL box as soon as response is returned
+        images.forEach(function (image) {
+            $.ajax({
+                url: 'resize.php',
+                type: 'GET',
+                data: {
+                    'image': image,
+                    'sizes': sizes
+                },
+                success: function (processed_images) {
+
+                    // $urlList.empty(); //Empty the current list of URLs
+
+                    processed_images.forEach(function (image) {
+
+                        //Create a li element
+                        var li = document.createElement('li');
+                        li.setAttribute('class', 'collection-item');
+
+                        //Create anchor with href = url
+                        var a = document.createElement('a');
+                        a.setAttribute('href', image.url);
+                        a.setAttribute('download', image.name);
+                        a.textContent = 'Download ' + image.name + '!';
+
+                        var p = document.createElement('p');
+                        p.textContent = 'We just saved you ' + image.saved_percentage + '% for your ' + image.height + 'x' + image.width + ' image :)!';
+
+                        //Append the anchor element as a child to the list element --> <li> <a></a> </li>
+                        li.appendChild(p);
+                        li.appendChild(a);
+
+                        //Append the li element containing the download link to the list (ul)
+                        $urlList.append(li);
+                    });
+                },
+                error: function (err) {
+                    alert('There was a problem in converting your images. Please close the current tab and try again! \n Error: ', err.responseText);
+                }
+            });
+        });
+    }
+
 }
 
 

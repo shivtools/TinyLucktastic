@@ -1,10 +1,7 @@
 <?php
 
   $configs = include(getcwd() . '/configs/config.php');
-  ini_set('allow_url_fopen', true);  //Allow script to download Images from Kraked URL
   header('Content-Type: application/json');
-
-  $ds = DIRECTORY_SEPARATOR;
 
   if(!empty($_FILES)){
 
@@ -32,6 +29,10 @@
       "file" => $path,
       "wait" => true,
       "lossy" => true,
+      "convert" => array(
+        "format" => "png",
+        "keep_extension" => true
+      ),
       "s3_store" => array(
         "key" => $configs['S3_KEY'],
         "secret" => $configs['S3_SECRET'],

@@ -3,8 +3,10 @@
   <head>
     <link href="./public/css/dropzone.css" type="text/css" rel="stylesheet" />
     <link href="./public/css/main.css" type="text/css" rel="stylesheet" />
+    <link href="./public/css/pace.css" type="text/css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
     <script src="./public/js/dropzone.js"></script>
+    <script src="./public/js/pace.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.0.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js"></script>
     <script src="./public/js/public.js"></script>
