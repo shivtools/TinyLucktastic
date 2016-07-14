@@ -1261,7 +1261,7 @@
       if(!isError){
 
         //Store object in browser's session storage
-        if(sessionStorage.length == 0){
+        if(!sessionStorage.images){
           //If there are no images currently stored in sessionStorage, then create an array and add first JSON object to it
           var images = [];
           images.push(response);

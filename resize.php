@@ -29,7 +29,7 @@
     //Iterate through each size and make call to Kraken to resize
     foreach ($sizes as $size) {
 
-      //Check if size > 0 i.e is valid
+      //Check if size != NULL i.e is valid
       if(floatval($size)){
 
           //Dimensions array to store new dimensions to resize to
@@ -66,6 +66,7 @@
           );
 
           $data = $kraken->url($params); //Make call to Kraken.io's API
+          $data['resize_scale'] = $size; //Store the resizing scale, so it can be stored in session storage after AJAX call receives response
           $kraken_response[] = $data;    //Append response to $kraken_response array
         }
     }
@@ -94,7 +95,8 @@
           'url' => $data['kraked_url'],
           'saved_percentage' => $saved_percentage,
           'width' => $data['kraked_width'],
-          'height' => $data['kraked_height']
+          'height' => $data['kraked_height'],
+          'resize_scale' => $data['resize_scale']
         );
       }
       else{

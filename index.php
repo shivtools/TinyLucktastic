@@ -18,6 +18,9 @@
         <nav class = "green accent-4">
           <div class="nav-wrapper">
             <a href="#!" class="brand-logo center">TinyLucktastic</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+              <li><a class='newTab' href="#">NEW BATCH</a></li>
+           </ul>
           </div>
         </nav>
      </div>
@@ -66,7 +69,7 @@
 
         <div class = "customDiv" style="display: none;">
           <div class="input-field col s1">
-            <input placeholder="Percentage" id="percentage" name="percentage" type="text" class="validate">
+            <input placeholder="% (0-100)" id="percentage" name="percentage" type="text" class="validate">
             <label for="percentage">Percentage</label>
           </div>
         </div>
