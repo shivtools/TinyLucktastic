@@ -19,7 +19,9 @@
           <div class="nav-wrapper">
             <a href="#!" class="brand-logo center">TinyLucktastic</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-              <li><a class='newTab' href="#">NEW BATCH</a></li>
+              <li><a class='downloadCompressed' href="#">Download compressed</a></li>
+              <li><a class='downloadResized' href="#">Download resized</a></li>
+              <li><a class='newBatch' href="#">New batch</a></li>
            </ul>
           </div>
         </nav>

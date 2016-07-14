@@ -1,9 +1,12 @@
 $(document).ready(function () {
 
-    var $custom = $('.customButton'); //If user decides to input custom specs
-    var $customDiv = $('.customDiv');
-    var $resize = $('.resize');
-    var $newTab = $('.newTab');
+    var $custom = $('.customButton'); //Button for custom percentage specs
+    var $customDiv = $('.customDiv'); //Div that contains URL list
+
+    var $resize = $('.resize'); //Button to initialize resizing
+    var $newBatch = $('.newBatch'); //Button to clear session storage and process a new batch
+    var $dwnldResized = $('.downloadResized'); //Button to download all resized images
+    var $dwnldCompressed = $('.downloadCompressed'); //Button to download all compressed images
 
     //When a user clicks on the custom button, hide the button and show input fields
     $custom.click(function () {
@@ -12,7 +15,7 @@ $(document).ready(function () {
     });
 
     //If user wants to process a new batch, clear sessionStorage
-    $newTab.click(function () {
+    $newBatch.click(function () {
         sessionStorage.clear();
         alert('You are good to go to process another batch of images :D!');
     });
@@ -36,7 +39,57 @@ $(document).ready(function () {
         }
     });
 
+    $dwnldCompressed.click(function(){
+      downloadCompressedImages();
+    });
+
+    $dwnldResized.click(function(){
+      downloadResizedImages();
+    });
 });
+
+var downloadResizedImages = function(){
+
+  if(!sessionStorage.resized){
+    alert('There are no resized images to download!');
+    return;
+  }
+
+  $.ajax({
+      url: 'download.php',
+      type: 'GET',
+      data: {
+        'images': sessionStorage.resized
+      },
+      success: function () {
+        alert('Successfully downloaded resized images');
+      },
+      error: function (err) {
+        alert('Not able to download resized images: ', err);
+      }
+  });
+}
+
+var downloadCompressedImages = function(){
+  if(!sessionStorage.images){
+    alert('There are no resized images to download!');
+    return;
+  }
+
+  $.ajax({
+      url: 'download.php',
+      type: 'GET',
+      data: {
+        'images': sessionStorage.images
+      },
+      success: function () {
+        alert('Successfully downloaded compressed images');
+      },
+      error: function (err) {
+        alert('Not able to download compressed images: ', err);
+      }
+  });
+}
 
 /*
     Populates window with download URLs and information for resized images
