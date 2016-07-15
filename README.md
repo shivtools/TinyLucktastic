@@ -1,9 +1,7 @@
 # TinyLucktastic
 
-###
-
-#### What is S3Piper?
-PHP tool to drag and drop, upload, compress and push **multiple** images to a specified Amazon S3. Images are compressed using Kraken's awesome image compression API.
+#### What is TinyLucktastic?
+TinyLucktastic is a tool to drag and drop, upload, compress, resize and push **multiple** images to a specified Amazon S3. Images are compressed using Kraken's awesome image compression API.
 
 ![alt text](https://raw.githubusercontent.com/shivtools/TinyLucktastic/master/public/markdown/tiny.png "Sneak peek!")
 
