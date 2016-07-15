@@ -2,11 +2,10 @@ $(document).ready(function () {
 
     var $custom = $('.customButton'); //Button for custom percentage specs
     var $customDiv = $('.customDiv'); //Div that contains URL list
+    var $urlList = $('.urlList'); //HTML unordered list that contains URLs
 
     var $resize = $('.resize'); //Button to initialize resizing
     var $newBatch = $('.newBatch'); //Button to clear session storage and process a new batch
-    var $dwnldResized = $('.downloadResized'); //Button to download all resized images
-    var $dwnldCompressed = $('.downloadCompressed'); //Button to download all compressed images
 
     //When a user clicks on the custom button, hide the button and show input fields
     $custom.click(function () {
@@ -17,7 +16,8 @@ $(document).ready(function () {
     //If user wants to process a new batch, clear sessionStorage
     $newBatch.click(function () {
         sessionStorage.clear();
-        alert('You are good to go to process another batch of images :D!');
+        $urlList.empty(); //Empty the current list of URLs
+        Materialize.toast('You are good to go to process another batch of images :D!', 4000);
     });
 
     //What to do when resize ('Go!') button is clicked
@@ -38,58 +38,8 @@ $(document).ready(function () {
             return;
         }
     });
-
-    $dwnldCompressed.click(function(){
-      downloadCompressedImages();
-    });
-
-    $dwnldResized.click(function(){
-      downloadResizedImages();
-    });
 });
 
-var downloadResizedImages = function(){
-
-  if(!sessionStorage.resized){
-    alert('There are no resized images to download!');
-    return;
-  }
-
-  $.ajax({
-      url: 'download.php',
-      type: 'GET',
-      data: {
-        'images': sessionStorage.resized
-      },
-      success: function () {
-        alert('Successfully downloaded resized images');
-      },
-      error: function (err) {
-        alert('Not able to download resized images: ', err);
-      }
-  });
-}
-
-var downloadCompressedImages = function(){
-  if(!sessionStorage.images){
-    alert('There are no resized images to download!');
-    return;
-  }
-
-  $.ajax({
-      url: 'download.php',
-      type: 'GET',
-      data: {
-        'images': sessionStorage.images
-      },
-      success: function () {
-        alert('Successfully downloaded compressed images');
-      },
-      error: function (err) {
-        alert('Not able to download compressed images: ', err);
-      }
-  });
-}
 
 /*
     Populates window with download URLs and information for resized images
@@ -118,15 +68,15 @@ var getResizedImages = function (checkboxes, percentage) {
 
     //Provide checks to see if user has checked at least one box or provided a percentage value
     if (!atLeastOneChecked && percentage == null) {
-        alert('You must provide at least one of the resizing options! sigh...');
+        Materialize.toast('You must provide at least one of the resizing options! sigh...', 4000) // 4000 is the duration of the toast
         return;
     } else if (percentage && percentage <= 0) {
-        alert('You must be joking.. please provide a proper percentage value... smh...');
+        Materialize.toast('You must be joking.. please provide a proper percentage value... smh...', 4000);
         return;
     }
     //Check if there are no image objects present in local storage. If not, prompt user
     else if (sessionStorage.length == 0) {
-        alert('Whaaaaa... No images to resize... sigh....');
+        Materialize.toast('Whaaaaa... No images to resize... sigh....', 4000);
         return;
     }
     //If all checks have passed, then send AJAX call to PHP script to resize image
@@ -149,7 +99,7 @@ var resize = function (images, sizes) {
 
     //If no images || no sizes are provided, complain and exit.
     if (images.length == 0) {
-        alert('Please provide an image to resize and try again!');
+        Materialize.toast('Please provide an image to resize and try again!', 4000);
         return;
     } else {
 
@@ -165,8 +115,6 @@ var resize = function (images, sizes) {
                     'sizes': sizes
                 },
                 success: function (processed_images) {
-
-                    // $urlList.empty(); //Empty the current list of URLs
 
                     processed_images.forEach(function (image) {
 

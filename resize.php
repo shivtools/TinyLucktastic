@@ -49,8 +49,7 @@
               "strategy" => "exact"
             ),
             "convert" => array(
-              "format" => "png",
-              "keep_extension" => true
+              "format" => "png"
             ),
             "s3_store" => array(
               "key" => $configs['S3_KEY'],

@@ -24,14 +24,15 @@
 
     $kraken = new Kraken($configs['KRAKEN_KEY'], $configs['KRAKEN_SECRET']);
 
+    $image_name = convertToPNG($image_name); //Convert current image extension to '.png'
+
     //Compress image and push to Amazon S3 bucket
     $params = array(
       "file" => $path,
       "wait" => true,
       "lossy" => true,
       "convert" => array(
-        "format" => "png",
-        "keep_extension" => true
+        "format" => "png"
       ),
       "s3_store" => array(
         "key" => $configs['S3_KEY'],
@@ -77,5 +78,26 @@
     }
 
     return $arr;
+  }
+
+  /*
+      Converts a filename with any extension to one with a .png extension
+      @params {String} Filename with any extension
+  */
+  function convertToPNG($file_name){
+
+    $temp = explode('.', $file_name);     //Separate string into array, delimited by '.'
+    $extension = $temp[count($temp)-1];  //Get the extension i.e last element in exploded array
+
+    //If extension is already png, return the filename as it is.
+    if($extension == "png"){
+      return $file_name;
+    }
+
+    //Otherwise remove the current extension and add a '.png' extension
+    $removed_extension = array_pop($temp);
+    $file_with_png_extension = implode(".", $temp) . ".png";
+
+    return $file_with_png_extension;
   }
 ?>

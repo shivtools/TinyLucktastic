@@ -19,9 +19,7 @@
           <div class="nav-wrapper">
             <a href="#!" class="brand-logo center">TinyLucktastic</a>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
-              <li><a class='downloadCompressed' href="#">Download compressed</a></li>
-              <li><a class='downloadResized' href="#">Download resized</a></li>
-              <li><a class='newBatch' href="#">New batch</a></li>
+              <li><a class='newBatch btn tooltipped' href="#" data-position="bottom" data-delay="50" data-tooltip="Use this option to compress a fresh batch of images.">New batch</a></li>
            </ul>
           </div>
         </nav>
@@ -67,7 +65,7 @@
           <label for="2x">2x</label>
         </p>
 
-        <a class="customButton col s1 waves-effect green accent-4 btn">Custom</a>
+        <a class="customButton col s1 waves-effect green accent-4 btn tooltipped" href='#' data-position="top" data-delay="50" data-tooltip="Use this option to resize to a custom dimension">Custom</a>
 
         <div class = "customDiv" style="display: none;">
           <div class="input-field col s1">
@@ -81,15 +79,17 @@
 
       <div class = "row center">
         <br>
-        <a class="resize waves-effect green accent-4 btn">Go!</a>
+        <a class="resize waves-effect green accent-4 btn tooltipped" href='#' data-position="top" data-delay="50" data-tooltip="Let's resize this!">Go!</a>
       </div>
 
     </div>
 
   </body>
 
-  <script type='text/javascript'>
-
-  </script>
+  <footer class="page-footer green accent-4">
+       <div class="footer-copyright center">
+           Made @ JRG by Shiv
+       </div>
+    </footer>
 
 </html>
