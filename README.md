@@ -1,9 +1,9 @@
 # s3-imagur
 
 #### What is s3-imagur?
-**s3-imagur** is a tool to drag and drop and **asynchronously** upload, compress, resize and push mulitple images to a specified Amazon S3. Images are compressed using Kraken's [image compression API](https://kraken.io/docs/getting-started).
+**s3-imagur** is a tool to drag and drop and **asynchronously** upload, compress, resize and push mulitple images to a specified Amazon S3 bucket. Images are compressed using Kraken's [image compression API](https://kraken.io/docs/getting-started).
 
-![alt text](https://raw.githubusercontent.com/shivtools/s3-imagur/master/public/markdown/tiny.png "Sneak peek!")
+![alt text](https://raw.githubusercontent.com/shivtools/TinyLucktastic/master/public/markdown/tiny.png "Sneak peek!")
 
 #### Get started
 
