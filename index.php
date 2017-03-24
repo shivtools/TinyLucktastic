@@ -28,7 +28,7 @@
      <br>
      <blockquote>
       <br>
-      <h3 class="flow-text center">Welcome to TinyLucktastic, an incredibly simple and lightweight image compression tool.</h3>
+      <h3 class="flow-text center">Welcome to s3-imagur, an incredibly simple and lightweight image compression tool.</h3>
       <br>
     </blockquote>
 
@@ -88,7 +88,7 @@
 
   <footer class="page-footer green accent-4">
        <div class="footer-copyright center">
-           Made @ JRG by Shiv
+           Made by Shiv
        </div>
     </footer>
 
